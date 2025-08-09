@@ -21,7 +21,7 @@ command = input("enter a command to continue: ").lower().strip()
 
 if command == "register":
 	print("welcome to account creation menu")
-	name = input("enter a name to create an account: ").capitalize()
+	name = input("enter a name to create an account: ").lower()
 	if name == users_db["name"]:
 		print("username taken")
 	else:
