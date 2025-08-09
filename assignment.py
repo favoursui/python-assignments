@@ -29,37 +29,40 @@ if command == "register":
 		password = input("enter a password to complete your account creation ")
 		print("account creation success!")
 		account_funding = float(input("how much do you want to deposit?: "))
-		account += account_funding
-		confirm = input("will you like to verify account?, a fee if 1500 will be incured(yes/no): ").lower()
-		if confirm == "yes":
-			if verification_fee > account:
-				print("insufficient balance, verification terminated")
-					
-			else:	
-				print("account verification success!")
-				print("A verification fee of 1500 deducted from your balance")			
+		if account_funding < 0:
+			print("invalid amount")
+		else:	
+			account += account_funding
+			confirm = input("will you like to verify account?, a fee if 1500 will be incured(yes/no): ").lower()
+			if confirm == "yes":
+				if verification_fee > account:
+					print("insufficient balance, verification terminated")
+						
+				else:	
+					print("account verification success!")
+					print("A verification fee of 1500 deducted from your balance")			
+					user = {
+						"name": name,
+						"password": password,
+						"account": account_funding
+						}
+					users_db.update(user)        
+					users_db["account"] -= verification_fee     
+					print(users_db)
+
+			elif confirm == "no":
+				print("verification skipped")
 				user = {
 					"name": name,
 					"password": password,
 					"account": account_funding
-					}
-				users_db.update(user)        
-				users_db["account"] -= verification_fee     
+								}
+				user["is_verified"] = False
+				users_db.update(user)
 				print(users_db)
-
-		elif confirm == "no":
-			print("verification skipped")
-			user = {
-				"name": name,
-				"password": password,
-				"account": account_funding
-						        }
-			user["is_verified"] = False
-			users_db.update(user)
-			print(users_db)
-					
-		else:
-			print("invalid input")			
+						
+			else:
+				print("invalid input")			
 					 
 			
 elif command == "login":
